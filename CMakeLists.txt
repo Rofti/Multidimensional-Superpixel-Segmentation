@@ -1,0 +1,77 @@
+#
+# Copyright (c) 2016, David Stutz 
+# Contact: david.stutz@rwth-aachen.de, davidstutz.de
+#
+# Copyright (c) 2020, Marven von Domarus
+# Contact: marven.von.domarus@rwth-aachen.de
+#
+# All rights reserved.
+# 
+# Redistribution and use in source and binary forms, with or without modification,
+# are permitted provided that the following conditions are met:
+# 
+# 1. Redistributions of source code must retain the above copyright notice,
+#    this list of conditions and the following disclaimer.
+# 
+# 2. Redistributions in binary form must reproduce the above copyright notice,
+#    this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 
+# 3. Neither the name of the copyright holder nor the names of its contributors
+#    may be used to endorse or promote products derived from this software
+#    without specific prior written permission.
+# 
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+# THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+# LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+# ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+cmake_minimum_required(VERSION 2.8)
+project(minerals_superpixel)
+
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+set(CMAKE_CXX_FLAGS  "-Wall -Wno-sign-compare -g -std=c++0x -O4 -fpermissive")
+
+# "Core algorithms" as recommended:
+option(BUILD_SLIC "Build SLIC" ON)
+option(BUILD_ETPS "Build ETPS" ON)
+option(BUILD_ERS "Build ERS" ON)
+option(BUILD_ERGC "Build ERGC" OFF)
+option(BUILD_KMC "Build KMC" ON)
+
+# Toolbox
+add_subdirectory(lib_eval)
+add_subdirectory(eval_parameter_optimization_cli)
+add_subdirectory(eval_summary_cli)
+add_subdirectory(eval_cropping_cli)
+
+if(BUILD_ETPS)
+    add_subdirectory(lib_etps)
+    add_subdirectory(etps_cli)
+endif()
+
+if(BUILD_SLIC)
+    add_subdirectory(lib_slic)
+    add_subdirectory(slic_cli)
+endif()
+
+if(BUILD_ERS)
+    add_subdirectory(lib_ers)
+    add_subdirectory(ers_cli)
+endif()
+
+if(BUILD_ERGC)
+    add_subdirectory(ergc_cli)
+    add_subdirectory(lib_ergc)
+endif()
+
+if(BUILD_KMC)
+    add_subdirectory(kmc_cli)
+endif()
